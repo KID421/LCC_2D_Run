@@ -23,12 +23,33 @@ public class Dog : MonoBehaviour
     // 初始事件：遊戲開始執行一次
     private void Start()
     {
-        print("哈囉，沃德~");
+        //print("哈囉，沃德~");
     }
 
     // 更新事件：每一禎執行一次 60fps
     private void Update()
     {
-        print("哈囉~");
+        //print("哈囉~");
+
+        MoveDog();
+        MoveCamera();
+    }
+
+    /// <summary>
+    /// 狗移動方法。
+    /// </summary>
+    private void MoveDog()
+    {
+        // 物件.移動(x, y, z);
+        // Time.delta 為裝置一禎的時間
+        dog.Translate(speed * Time.deltaTime, 0, 0);
+    }
+
+    /// <summary>
+    /// 攝影機移動方法。
+    /// </summary>
+    private void MoveCamera()
+    {
+        cam.Translate(speed * Time.deltaTime, 0, 0);
     }
 }
