@@ -64,7 +64,7 @@ public class Dog : MonoBehaviour
     /// <summary>
     /// 滑行方法
     /// </summary>
-    private void Slide()
+    public void Slide()
     {
         print("滑行");
     }
