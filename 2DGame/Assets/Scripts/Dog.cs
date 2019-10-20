@@ -19,4 +19,16 @@ public class Dog : MonoBehaviour
 
     public Transform dog, cam;
     #endregion
+
+    // 初始事件：遊戲開始執行一次
+    private void Start()
+    {
+        print("哈囉，沃德~");
+    }
+
+    // 更新事件：每一禎執行一次 60fps
+    private void Update()
+    {
+        print("哈囉~");
+    }
 }
