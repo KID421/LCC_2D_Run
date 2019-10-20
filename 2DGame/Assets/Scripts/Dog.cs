@@ -52,4 +52,20 @@ public class Dog : MonoBehaviour
     {
         cam.Translate(speed * Time.deltaTime, 0, 0);
     }
+
+    /// <summary>
+    /// 跳躍方法
+    /// </summary>
+    public void Jump()
+    {
+        print("跳躍!");
+    }
+
+    /// <summary>
+    /// 滑行方法
+    /// </summary>
+    private void Slide()
+    {
+        print("滑行");
+    }
 }
