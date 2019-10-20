@@ -2,6 +2,7 @@
 
 public class Dog : MonoBehaviour
 {
+    #region 欄位區域
     // 欄位 field (變數)
     // 修飾詞 欄位類型 欄位名稱 (指定 值) 結束
     // private 私人(不顯示) public 公開(顯示)
@@ -15,4 +16,7 @@ public class Dog : MonoBehaviour
     public bool isGround;                   // true 是、false 否
     [Header("角色名稱")]
     public string characterName = "KID";
+
+    public Transform dog, cam;
+    #endregion
 }
