@@ -2,7 +2,7 @@
 
 public class Dog : MonoBehaviour
 {
-    #region 欄位區域
+    #region 欄位
     // 欄位 field (變數)
     // 修飾詞 欄位類型 欄位名稱 (指定 值) 結束
     // private 私人(不顯示) public 公開(顯示)
@@ -17,10 +17,10 @@ public class Dog : MonoBehaviour
     [Header("角色名稱")]
     public string characterName = "KID";
 
-    public Transform dog, cam;
-    public Animator ani;            // 動畫控制器
-    public CapsuleCollider2D cc2d;  // 膠囊碰撞器
-    public Rigidbody2D r2d;         // 剛體
+    private Transform cam;
+    private Animator ani;            // 動畫控制器
+    private CapsuleCollider2D cc2d;  // 膠囊碰撞器
+    private Rigidbody2D r2d;         // 剛體
     #endregion
 
     #region 事件
@@ -28,6 +28,12 @@ public class Dog : MonoBehaviour
     private void Start()
     {
         //print("哈囉，沃德~");
+        // GetComponent<T>() 泛型方法<T>
+        ani = GetComponent<Animator>();
+        cc2d = GetComponent<CapsuleCollider2D>();
+        r2d = GetComponent<Rigidbody2D>();
+
+        cam = GameObject.Find("Main Camera").transform;
     }
 
     // 更新事件：每一禎執行一次 60fps
@@ -58,7 +64,8 @@ public class Dog : MonoBehaviour
     {
         // 物件.移動(x, y, z);
         // Time.delta 為裝置一禎的時間
-        dog.Translate(speed * Time.deltaTime, 0, 0);
+        //dog.Translate(speed * Time.deltaTime, 0, 0);
+        transform.Translate(speed * Time.deltaTime, 0, 0);
     }
 
     /// <summary>
@@ -91,8 +98,8 @@ public class Dog : MonoBehaviour
     {
         print("滑行");
 	    ani.SetBool("滑行開關", true);
-        cc2d.offset = new Vector2(-0.1f, -0.9f);
-        cc2d.size = new Vector2(0.95f, 1.1f);
+        cc2d.offset = new Vector2(-0.1f, -1f);
+        cc2d.size = new Vector2(0.95f, 1f);
     }
 
     /// <summary>
