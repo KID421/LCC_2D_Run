@@ -17,10 +17,14 @@ public class Dog : MonoBehaviour
     [Header("角色名稱")]
     public string characterName = "KID";
 
+    public AudioClip soundJump, soundSlide;
+
     private Transform cam;
     private Animator ani;            // 動畫控制器
     private CapsuleCollider2D cc2d;  // 膠囊碰撞器
     private Rigidbody2D r2d;         // 剛體
+    private AudioSource aud;         // 音源
+    private SpriteRenderer sr;       // 圖片渲染
     #endregion
 
     #region 事件
@@ -32,6 +36,8 @@ public class Dog : MonoBehaviour
         ani = GetComponent<Animator>();
         cc2d = GetComponent<CapsuleCollider2D>();
         r2d = GetComponent<Rigidbody2D>();
+        aud = GetComponent<AudioSource>();
+        sr = GetComponent<SpriteRenderer>();
 
         cam = GameObject.Find("Main Camera").transform;
     }
@@ -54,11 +60,34 @@ public class Dog : MonoBehaviour
             isGround = true;
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.name == "障礙物")
+        {
+            Damage();
+        }
+    }
     #endregion
 
     #region 方法
     /// <summary>
-    /// 狗移動方法。
+    /// 角色受傷
+    /// </summary>
+    private void Damage()
+    {
+        Debug.Log("受傷!!!");
+        sr.enabled = false;
+        Invoke("ShowSprite", .1f);  // 延遲調用("方法名稱"，延遲時間)
+    }
+
+    private void ShowSprite()
+    {
+        sr.enabled = true;
+    }
+
+    /// <summary>
+    /// 狗移動方法
     /// </summary>
     private void MoveDog()
     {
@@ -69,7 +98,7 @@ public class Dog : MonoBehaviour
     }
 
     /// <summary>
-    /// 攝影機移動方法。
+    /// 攝影機移動方法
     /// </summary>
     private void MoveCamera()
     {
@@ -88,6 +117,7 @@ public class Dog : MonoBehaviour
             ani.SetBool("跳躍開關", true);
             r2d.AddForce(new Vector2(0, jump)); // 剛體.推力(二維向量)
             isGround = false;                   // 地板布林值 = 取消
+            aud.PlayOneShot(soundJump);
         }
     }
 
@@ -100,6 +130,7 @@ public class Dog : MonoBehaviour
 	    ani.SetBool("滑行開關", true);
         cc2d.offset = new Vector2(-0.1f, -1f);
         cc2d.size = new Vector2(0.95f, 1f);
+        aud.PlayOneShot(soundSlide, 3);
     }
 
     /// <summary>
