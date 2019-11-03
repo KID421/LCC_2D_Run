@@ -19,7 +19,8 @@ public class Dog : MonoBehaviour
 
     public Transform dog, cam;
     public Animator ani;            // 動畫控制器
-    public CapsuleCollider2D cc2d;
+    public CapsuleCollider2D cc2d;  // 膠囊碰撞器
+    public Rigidbody2D r2d;         // 剛體
     #endregion
 
     #region 事件
@@ -73,8 +74,14 @@ public class Dog : MonoBehaviour
     /// </summary>
     public void Jump()
     {
-        print("跳躍!");
-        ani.SetBool("跳躍開關", true);
+        // 如果 在地板上布林值 等於 勾選
+        if (isGround == true)
+        {
+            print("跳躍!");
+            ani.SetBool("跳躍開關", true);
+            r2d.AddForce(new Vector2(0, jump)); // 剛體.推力(二維向量)
+            isGround = false;                   // 地板布林值 = 取消
+        }
     }
 
     /// <summary>

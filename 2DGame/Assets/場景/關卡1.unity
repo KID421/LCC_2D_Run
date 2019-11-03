@@ -217,7 +217,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138077660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.8, y: 4.82, z: 0}
+  m_LocalPosition: {x: -5, y: 2.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpCount: 2
-  jump: 200
+  jump: 500
   speed: 0
   isGround: 0
   characterName: KID
@@ -281,6 +281,7 @@ MonoBehaviour:
   cam: {fileID: 625815024}
   ani: {fileID: 138077661}
   cc2d: {fileID: 138077664}
+  r2d: {fileID: 138077665}
 --- !u!1 &195908911
 GameObject:
   m_ObjectHideFlags: 0
