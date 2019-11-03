@@ -18,6 +18,8 @@ public class Dog : MonoBehaviour
     public string characterName = "KID";
 
     public Transform dog, cam;
+    public Animator ani;            // 動畫控制器
+    public CapsuleCollider2D cc2d;
     #endregion
 
     // 初始事件：遊戲開始執行一次
@@ -59,13 +61,29 @@ public class Dog : MonoBehaviour
     public void Jump()
     {
         print("跳躍!");
+        ani.SetBool("跳躍開關", true);
     }
 
     /// <summary>
-    /// 滑行方法
+    /// 滑行方法，縮小設定碰撞器
     /// </summary>
     public void Slide()
     {
         print("滑行");
+	    ani.SetBool("滑行開關", true);
+        cc2d.offset = new Vector2(-0.1f, -0.9f);
+        cc2d.size = new Vector2(0.95f, 1.1f);
+    }
+
+    /// <summary>
+    /// 重新設定跳躍與滑行布林值，重新設定碰撞器
+    /// </summary>
+    public void ResetAnimator()
+    {
+        ani.SetBool("跳躍開關", false);
+        ani.SetBool("滑行開關", false);
+
+        cc2d.offset = new Vector2(-0.1f, -0.25f);
+        cc2d.size = new Vector2(0.95f, 2.5f);
     }
 }
