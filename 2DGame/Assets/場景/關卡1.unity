@@ -278,6 +278,9 @@ MonoBehaviour:
   speed: 6
   isGround: 0
   characterName: KID
+  hp: 500
+  hpBar: {fileID: 413973304}
+  damage: 20
   soundJump: {fileID: 8300000, guid: 3000a62c160a82c46adb30256856effd, type: 3}
   soundSlide: {fileID: 8300000, guid: e31487b4b4963a1499862234a16eafd1, type: 3}
 --- !u!82 &138077667

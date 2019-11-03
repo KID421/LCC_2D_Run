@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Dog : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class Dog : MonoBehaviour
     public bool isGround;                   // true 是、false 否
     [Header("角色名稱")]
     public string characterName = "KID";
+    [Header("血量")]
+    public float hp = 500;
+    private float maxHp;
+    public Image hpBar;
+    [Header("障礙物傷害值")]
+    public float damage = 20;
 
     public AudioClip soundJump, soundSlide;
 
@@ -31,6 +38,8 @@ public class Dog : MonoBehaviour
     // 初始事件：遊戲開始執行一次
     private void Start()
     {
+        maxHp = hp;
+
         //print("哈囉，沃德~");
         // GetComponent<T>() 泛型方法<T>
         ani = GetComponent<Animator>();
@@ -79,8 +88,15 @@ public class Dog : MonoBehaviour
         Debug.Log("受傷!!!");
         sr.enabled = false;
         Invoke("ShowSprite", .1f);  // 延遲調用("方法名稱"，延遲時間)
+
+        //hp = hp - damage;
+        hp -= damage;
+        hpBar.fillAmount = hp / maxHp;
     }
 
+    /// <summary>
+    /// 顯示圖片
+    /// </summary>
     private void ShowSprite()
     {
         sr.enabled = true;
