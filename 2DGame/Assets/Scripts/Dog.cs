@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 
 public class Dog : MonoBehaviour
 {
@@ -75,6 +76,12 @@ public class Dog : MonoBehaviour
         if (collision.name == "障礙物")
         {
             Damage();
+        }
+
+        if (collision.name == "道具")
+        {
+            var tilemap = collision.GetComponent<Tilemap>();
+            tilemap.SetTile(tilemap.WorldToCell(collision.transform.position), null);
         }
     }
     #endregion
