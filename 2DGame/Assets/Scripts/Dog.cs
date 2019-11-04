@@ -69,6 +69,16 @@ public class Dog : MonoBehaviour
         {
             isGround = true;
         }
+
+        if (collision.gameObject.name == "道具")
+        {
+            Tilemap tilemap = collision.gameObject.GetComponent<Tilemap>();
+            Vector3 hitPosition = Vector3.zero;
+            ContactPoint2D hit = collision.contacts[0];
+            hitPosition.x = hit.point.x - 0.01f * hit.normal.x;
+            hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
+            tilemap.SetTile(tilemap.WorldToCell(hitPosition), null);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -76,12 +86,6 @@ public class Dog : MonoBehaviour
         if (collision.name == "障礙物")
         {
             Damage();
-        }
-
-        if (collision.name == "道具")
-        {
-            var tilemap = collision.GetComponent<Tilemap>();
-            tilemap.SetTile(tilemap.WorldToCell(collision.transform.position), null);
         }
     }
     #endregion
