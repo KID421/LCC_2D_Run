@@ -264,12 +264,14 @@ public class Dog : MonoBehaviour
             Debug.Log("顯示結算畫面~");
             final.SetActive(true);
             StartCoroutine(FinalCaculate(countDiamond, scoreDiamond, 100, textFinalDiamond, soundDiamond));
-            StartCoroutine(FinalCaculate(countCherry, scoreCherry, 300, textFinalCherry, soundCherry));
+            StartCoroutine(FinalCaculate(countCherry, scoreCherry, 300, textFinalCherry, soundCherry, countDiamond * 0.2f));
         }
     }
 
-    private IEnumerator FinalCaculate(int count, int score, int addScore, Text textFinal, AudioClip sound)
+    private IEnumerator FinalCaculate(int count, int score, int addScore, Text textFinal, AudioClip sound, float wait = 0)
     {
+        yield return new WaitForSeconds(wait);
+
         while (count > 0)                                   // 當數量 > 0 時執行
         {
             count--;                                         // 鑽石數量 -1
