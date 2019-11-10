@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using System.Collections;
 
 public class Dog : MonoBehaviour
 {
@@ -262,7 +263,21 @@ public class Dog : MonoBehaviour
         {
             Debug.Log("顯示結算畫面~");
             final.SetActive(true);
+            StartCoroutine(FinalDiamond());
         }
+    }
+
+    /// <summary>
+    /// 結算鑽石
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FinalDiamond()
+    {
+        textFinalDiamond.text = "100";
+        yield return new WaitForSeconds(1);
+        textFinalDiamond.text = "200";
+        yield return new WaitForSeconds(1);
+        textFinalDiamond.text = "300";
     }
 
     #endregion
