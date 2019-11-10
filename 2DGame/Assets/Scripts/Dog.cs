@@ -27,6 +27,9 @@ public class Dog : MonoBehaviour
 
     public AudioClip soundJump, soundSlide;
 
+    [Header("拼接地圖")]
+    public Tilemap tileProp;
+
     private Transform cam;
     private Animator ani;            // 動畫控制器
     private CapsuleCollider2D cc2d;  // 膠囊碰撞器
@@ -69,34 +72,58 @@ public class Dog : MonoBehaviour
         {
             isGround = true;
         }
-
         if (collision.gameObject.name == "道具")
         {
-            Tilemap tilemap = collision.gameObject.GetComponent<Tilemap>();
-            Vector3 hitPosition = Vector3.zero;
-            ContactPoint2D hit = collision.contacts[0];
-            hitPosition.x = hit.point.x - 0.01f * hit.normal.x;
-            hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
-            tilemap.SetTile(tilemap.WorldToCell(hitPosition), null);
+            EatProp(collision);
         }
     }
 
+    // 觸發事件：當物件觸發開始時執行一次 (有勾選 Is Trigger 的碰撞器)
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.name == "障礙物")
         {
             Damage();
         }
+        if (collision.tag == "鑽石")
+        {
+            EatDiamond(collision);
+        }
     }
     #endregion
 
     #region 方法
     /// <summary>
+    /// 吃櫻桃
+    /// </summary>
+    /// <param name="collision">碰撞資訊</param>
+    private void EatProp(Collision2D collision)
+    {
+        Vector3 center = Vector3.zero;
+        Vector3 point = collision.contacts[0].point;
+        Vector3 normal = collision.contacts[0].normal;
+
+        center.x = point.x - normal.x * 0.01f;
+        center.y = point.y - normal.y * 0.01f;
+
+        tileProp.SetTile(tileProp.WorldToCell(center), null);
+    }
+
+    /// <summary>
+    /// 吃鑽石。
+    /// </summary>
+    /// <param name="collision">碰撞資訊</param>
+    private void EatDiamond(Collider2D collision)
+    {
+        Destroy(collision.gameObject);
+    }
+
+    /// <summary>
     /// 角色受傷
     /// </summary>
     private void Damage()
     {
-        Debug.Log("受傷!!!");
+        //Debug.Log("受傷!!!");
         sr.enabled = false;
         Invoke("ShowSprite", .1f);  // 延遲調用("方法名稱"，延遲時間)
 
@@ -140,7 +167,7 @@ public class Dog : MonoBehaviour
         // 如果 在地板上布林值 等於 勾選
         if (isGround == true)
         {
-            print("跳躍!");
+            //print("跳躍!");
             ani.SetBool("跳躍開關", true);
             r2d.AddForce(new Vector2(0, jump)); // 剛體.推力(二維向量)
             isGround = false;                   // 地板布林值 = 取消
@@ -153,7 +180,7 @@ public class Dog : MonoBehaviour
     /// </summary>
     public void Slide()
     {
-        print("滑行");
+        //print("滑行");
 	    ani.SetBool("滑行開關", true);
         cc2d.offset = new Vector2(-0.1f, -1f);
         cc2d.size = new Vector2(0.95f, 1f);
