@@ -263,10 +263,24 @@ public class Dog : MonoBehaviour
         {
             Debug.Log("顯示結算畫面~");
             final.SetActive(true);
-            StartCoroutine(FinalDiamond());
+            StartCoroutine(FinalCaculate(countDiamond, scoreDiamond, 100, textFinalDiamond, soundDiamond));
+            StartCoroutine(FinalCaculate(countCherry, scoreCherry, 300, textFinalCherry, soundCherry));
         }
     }
 
+    private IEnumerator FinalCaculate(int count, int score, int addScore, Text textFinal, AudioClip sound)
+    {
+        while (count > 0)                                   // 當數量 > 0 時執行
+        {
+            count--;                                         // 鑽石數量 -1
+            score += addScore;                              // 分數遞增
+            textFinal.text = score.ToString();              // 更新介面
+            aud.PlayOneShot(sound);                         // 播放音效
+            yield return new WaitForSeconds(0.2f);          // 等待
+        }
+    }
+
+    /*
     /// <summary>
     /// 結算鑽石
     /// </summary>
@@ -282,5 +296,22 @@ public class Dog : MonoBehaviour
             yield return new WaitForSeconds(0.2f);              // 等待
         }
     }
+
+    /// <summary>
+    /// 結算櫻桃
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FinalCherry()
+    {
+        while (countCherry > 0)                                // 當數量 > 0 時執行
+        {
+            countCherry--;                                     // 鑽石數量 -1
+            scoreCherry += 300;                                // 分數遞增
+            textFinalCherry.text = scoreCherry.ToString();    // 更新介面
+            aud.PlayOneShot(soundCherry);                      // 播放音效
+            yield return new WaitForSeconds(0.2f);              // 等待
+        }
+    }
+    */
     #endregion
 }
