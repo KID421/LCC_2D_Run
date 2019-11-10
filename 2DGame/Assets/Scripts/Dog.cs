@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
-using System.Collections;
 
 public class Dog : MonoBehaviour
 {
@@ -41,6 +40,7 @@ public class Dog : MonoBehaviour
     [Header("遺失血量大小")]
     public float lose = 1;
 
+    [Header("結算畫面")]
     public GameObject final;
     public Text textFinalDiamond, textFinalCherry, textTime, textTotal;
     public int scoreDiamond, scoreCherry, scoreTime, scoreTotal;
@@ -247,11 +247,23 @@ public class Dog : MonoBehaviour
     {
         if (hp <= 0)
         {
-            hp = 0;
             speed = 0;
             ani.SetBool("死亡開關", true);
+            Final();
         }
     }
-    #endregion
 
+    /// <summary>
+    /// 結算畫面
+    /// </summary>
+    private void Final()
+    {
+        if (final.activeInHierarchy == false)
+        {
+            Debug.Log("顯示結算畫面~");
+            final.SetActive(true);
+        }
+    }
+
+    #endregion
 }
