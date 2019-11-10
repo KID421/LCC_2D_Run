@@ -146,6 +146,7 @@ public class Dog : MonoBehaviour
         //hp = hp - damage;
         hp -= damage;
         hpBar.fillAmount = hp / maxHp;
+        Dead();
     }
 
     /// <summary>
@@ -222,6 +223,19 @@ public class Dog : MonoBehaviour
     {
         hp -= Time.deltaTime * lose;
         hpBar.fillAmount = hp / maxHp;
+        Dead();
+    }
+
+    /// <summary>
+    /// 死亡
+    /// </summary>
+    private void Dead()
+    {
+        if (hp <= 0)
+        {
+            speed = 0;
+            ani.SetBool("死亡開關", true);
+        }
     }
     #endregion
 }

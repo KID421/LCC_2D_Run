@@ -275,7 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpCount: 2
   jump: 1250
-  speed: 6
+  speed: 5
   isGround: 0
   characterName: KID
   hp: 500
