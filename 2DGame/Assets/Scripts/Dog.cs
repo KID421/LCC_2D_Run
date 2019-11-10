@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using System.Collections;
 
 public class Dog : MonoBehaviour
 {
@@ -39,6 +40,10 @@ public class Dog : MonoBehaviour
 
     [Header("遺失血量大小")]
     public float lose = 1;
+
+    public GameObject final;
+    public Text textFinalDiamond, textFinalCherry, textTime, textTotal;
+    public int scoreDiamond, scoreCherry, scoreTime, scoreTotal;
 
     private Transform cam;
     private Animator ani;            // 動畫控制器
@@ -97,6 +102,11 @@ public class Dog : MonoBehaviour
         if (collision.tag == "鑽石")
         {
             EatDiamond(collision);
+        }
+        if (collision.name == "死亡區域")
+        {
+            hp = 0;
+            Dead();
         }
     }
     #endregion
@@ -181,6 +191,8 @@ public class Dog : MonoBehaviour
     /// </summary>
     public void Jump()
     {
+        // 如果 血量 <= 0 跳出
+        if (hp <= 0) return;
         // 如果 在地板上布林值 等於 勾選
         if (isGround == true)
         {
@@ -197,8 +209,10 @@ public class Dog : MonoBehaviour
     /// </summary>
     public void Slide()
     {
+        // 如果 血量 <= 0 跳出
+        if (hp <= 0) return;
         //print("滑行");
-	    ani.SetBool("滑行開關", true);
+        ani.SetBool("滑行開關", true);
         cc2d.offset = new Vector2(-0.1f, -1.1f);
         cc2d.size = new Vector2(0.95f, 0.9f);
         aud.PlayOneShot(soundSlide, 3);
@@ -233,9 +247,11 @@ public class Dog : MonoBehaviour
     {
         if (hp <= 0)
         {
+            hp = 0;
             speed = 0;
             ani.SetBool("死亡開關", true);
         }
     }
     #endregion
+
 }
