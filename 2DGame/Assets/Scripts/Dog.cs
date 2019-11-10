@@ -24,11 +24,21 @@ public class Dog : MonoBehaviour
     public Image hpBar;
     [Header("障礙物傷害值")]
     public float damage = 20;
+    [Header("道具")]
+    public int countDiamond;
+    public Text textDiamond;
+    public AudioClip soundDiamond;
+    public int countCherry;
+    public Text textCherry;
+    public AudioClip soundCherry;
 
     public AudioClip soundJump, soundSlide;
 
     [Header("拼接地圖")]
     public Tilemap tileProp;
+
+    [Header("遺失血量大小")]
+    public float lose = 1;
 
     private Transform cam;
     private Animator ani;            // 動畫控制器
@@ -58,10 +68,9 @@ public class Dog : MonoBehaviour
     // 更新事件：每一禎執行一次 60fps
     private void Update()
     {
-        //print("哈囉~");
-
         MoveDog();
         MoveCamera();
+        HpLose();
     }
 
     // 碰撞事件：當物件碰撞開始時執行一次
@@ -74,7 +83,7 @@ public class Dog : MonoBehaviour
         }
         if (collision.gameObject.name == "道具")
         {
-            EatProp(collision);
+            EatCherry(collision);
         }
     }
 
@@ -97,7 +106,7 @@ public class Dog : MonoBehaviour
     /// 吃櫻桃
     /// </summary>
     /// <param name="collision">碰撞資訊</param>
-    private void EatProp(Collision2D collision)
+    private void EatCherry(Collision2D collision)
     {
         Vector3 center = Vector3.zero;
         Vector3 point = collision.contacts[0].point;
@@ -107,6 +116,10 @@ public class Dog : MonoBehaviour
         center.y = point.y - normal.y * 0.01f;
 
         tileProp.SetTile(tileProp.WorldToCell(center), null);
+
+        countCherry++;
+        textCherry.text = countCherry.ToString();
+        aud.PlayOneShot(soundCherry);
     }
 
     /// <summary>
@@ -116,6 +129,9 @@ public class Dog : MonoBehaviour
     private void EatDiamond(Collider2D collision)
     {
         Destroy(collision.gameObject);
+        countDiamond++;
+        textDiamond.text = countDiamond.ToString();
+        aud.PlayOneShot(soundDiamond);
     }
 
     /// <summary>
@@ -182,8 +198,8 @@ public class Dog : MonoBehaviour
     {
         //print("滑行");
 	    ani.SetBool("滑行開關", true);
-        cc2d.offset = new Vector2(-0.1f, -1f);
-        cc2d.size = new Vector2(0.95f, 1f);
+        cc2d.offset = new Vector2(-0.1f, -1.1f);
+        cc2d.size = new Vector2(0.95f, 0.9f);
         aud.PlayOneShot(soundSlide, 3);
     }
 
@@ -197,6 +213,15 @@ public class Dog : MonoBehaviour
 
         cc2d.offset = new Vector2(-0.1f, -0.25f);
         cc2d.size = new Vector2(0.95f, 2.5f);
+    }
+
+    /// <summary>
+    /// 遺失血量
+    /// </summary>
+    private void HpLose()
+    {
+        hp -= Time.deltaTime * lose;
+        hpBar.fillAmount = hp / maxHp;
     }
     #endregion
 }
