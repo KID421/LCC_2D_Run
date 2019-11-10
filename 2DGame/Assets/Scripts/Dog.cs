@@ -273,12 +273,14 @@ public class Dog : MonoBehaviour
     /// <returns></returns>
     private IEnumerator FinalDiamond()
     {
-        textFinalDiamond.text = "100";
-        yield return new WaitForSeconds(1);
-        textFinalDiamond.text = "200";
-        yield return new WaitForSeconds(1);
-        textFinalDiamond.text = "300";
+        while (countDiamond > 0)                                // 當數量 > 0 時執行
+        {
+            countDiamond--;                                     // 鑽石數量 -1
+            scoreDiamond += 100;                                // 分數遞增
+            textFinalDiamond.text = scoreDiamond.ToString();    // 更新介面
+            aud.PlayOneShot(soundDiamond);                      // 播放音效
+            yield return new WaitForSeconds(0.2f);              // 等待
+        }
     }
-
     #endregion
 }

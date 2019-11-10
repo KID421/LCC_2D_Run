@@ -520,7 +520,7 @@ MonoBehaviour:
   hp: 500
   hpBar: {fileID: 413973304}
   damage: 20
-  countDiamond: 0
+  countDiamond: 7
   textDiamond: {fileID: 801520035}
   soundDiamond: {fileID: 8300000, guid: 51aaeafeb45d6064e9381f666f9c0530, type: 3}
   countCherry: 0
