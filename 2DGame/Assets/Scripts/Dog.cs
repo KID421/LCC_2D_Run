@@ -266,7 +266,7 @@ public class Dog : MonoBehaviour
             final.SetActive(true);
             StartCoroutine(FinalCaculate(countDiamond, 0, 100, textFinalDiamond, soundDiamond));
             StartCoroutine(FinalCaculate(countCherry, 1, 300, textFinalCherry, soundCherry, countDiamond * 0.2f));
-            int time = (int)Time.time;  // (int) 轉為整數型態，小數點會去掉
+            int time = (int)Time.timeSinceLevelLoad;  // (int) 轉為整數型態，小數點會去掉
             StartCoroutine(FinalCaculate(time, 2, 100, textTime, soundCalc, countDiamond * 0.2f + countCherry * 0.2f));
         }
     }
