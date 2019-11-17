@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public Text textLoading;
     public Image imageLoading;
+    public GameObject tip;
 
     /// <summary>
     /// 重新開始
@@ -42,8 +43,16 @@ public class GameManager : MonoBehaviour
 
         while (ao.isDone == false)                                      // 當 場景尚未載入完成
         {
-            textLoading.text = ao.progress + " / 100";                  // 更新文字介面
+            textLoading.text = ao.progress / 0.9f * 100 + " / 100";     // 更新文字介面
+            imageLoading.fillAmount = ao.progress / 0.9f;               // 更新吧條
             yield return null;                                          // 等待
+
+            if (ao.progress == 0.9f)                                    // 如果 進度 == 0.9 
+            {
+                tip.SetActive(true);                                    // 顯示提示文字
+
+                if (Input.anyKey) ao.allowSceneActivation = true;       // 玩家按下任意鍵 開啟載入
+            }
         }
     }
 }

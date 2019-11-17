@@ -262,7 +262,7 @@ public class Dog : MonoBehaviour
     {
         if (final.activeInHierarchy == false)
         {
-            Debug.Log("顯示結算畫面~");
+            //Debug.Log("顯示結算畫面~");
             final.SetActive(true);
             StartCoroutine(FinalCaculate(countDiamond, 0, 100, textFinalDiamond, soundDiamond));
             StartCoroutine(FinalCaculate(countCherry, 1, 300, textFinalCherry, soundCherry, countDiamond * 0.2f));
