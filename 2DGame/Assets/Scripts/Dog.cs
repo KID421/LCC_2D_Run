@@ -33,7 +33,7 @@ public class Dog : MonoBehaviour
     public Text textCherry;
     public AudioClip soundCherry;
 
-    public AudioClip soundJump, soundSlide;
+    public AudioClip soundJump, soundSlide, soundHit, soundCalc;
 
     [Header("拼接地圖")]
     public Tilemap tileProp;
@@ -44,7 +44,6 @@ public class Dog : MonoBehaviour
     [Header("結算畫面")]
     public GameObject final;
     public Text textFinalDiamond, textFinalCherry, textTime, textTotal;
-    //public int scoreDiamond, scoreCherry, scoreTime, scoreTotal;
     public int[] scores = new int[4];
 
     private Transform cam;
@@ -152,6 +151,7 @@ public class Dog : MonoBehaviour
     private void Damage()
     {
         //Debug.Log("受傷!!!");
+        aud.PlayOneShot(soundHit, 0.8f);
         sr.enabled = false;
         Invoke("ShowSprite", .1f);  // 延遲調用("方法名稱"，延遲時間)
 
@@ -267,7 +267,7 @@ public class Dog : MonoBehaviour
             StartCoroutine(FinalCaculate(countDiamond, 0, 100, textFinalDiamond, soundDiamond));
             StartCoroutine(FinalCaculate(countCherry, 1, 300, textFinalCherry, soundCherry, countDiamond * 0.2f));
             int time = (int)Time.time;  // (int) 轉為整數型態，小數點會去掉
-            StartCoroutine(FinalCaculate(time, 2, 200, textTime, soundSlide, countDiamond * 0.2f + countCherry * 0.2f));
+            StartCoroutine(FinalCaculate(time, 2, 100, textTime, soundCalc, countDiamond * 0.2f + countCherry * 0.2f));
         }
     }
 
@@ -282,7 +282,7 @@ public class Dog : MonoBehaviour
     /// <param name="wait">等待時間</param>
     /// <param name="waitTime">間隔時間</param>
     /// <returns></returns>
-    private IEnumerator FinalCaculate(int count, int scoreIndex, int addScore, Text textFinal, AudioClip sound, float wait = 0, float waitTime = 0.2f)
+    private IEnumerator FinalCaculate(int count, int scoreIndex, int addScore, Text textFinal, AudioClip sound, float wait = 0, float waitTime = 0.1f)
     {
         yield return new WaitForSeconds(wait);
 
@@ -301,7 +301,7 @@ public class Dog : MonoBehaviour
         {
             int total = scores[3] / 100;
             scores[3] = 0;
-            StartCoroutine(FinalCaculate(total, 3, 100, textTotal, soundSlide, 0, 0.05f));
+            StartCoroutine(FinalCaculate(total, 3, 100, textTotal, soundCalc, 0, 0.05f));
         }
     }
 
