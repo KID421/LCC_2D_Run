@@ -44,7 +44,8 @@ public class Dog : MonoBehaviour
     [Header("結算畫面")]
     public GameObject final;
     public Text textFinalDiamond, textFinalCherry, textTime, textTotal;
-    public int scoreDiamond, scoreCherry, scoreTime, scoreTotal;
+    //public int scoreDiamond, scoreCherry, scoreTime, scoreTotal;
+    public int[] scores = new int[4];
 
     private Transform cam;
     private Animator ani;            // 動畫控制器
@@ -263,22 +264,44 @@ public class Dog : MonoBehaviour
         {
             Debug.Log("顯示結算畫面~");
             final.SetActive(true);
-            StartCoroutine(FinalCaculate(countDiamond, scoreDiamond, 100, textFinalDiamond, soundDiamond));
-            StartCoroutine(FinalCaculate(countCherry, scoreCherry, 300, textFinalCherry, soundCherry, countDiamond * 0.2f));
+            StartCoroutine(FinalCaculate(countDiamond, 0, 100, textFinalDiamond, soundDiamond));
+            StartCoroutine(FinalCaculate(countCherry, 1, 300, textFinalCherry, soundCherry, countDiamond * 0.2f));
+            int time = (int)Time.time;  // (int) 轉為整數型態，小數點會去掉
+            StartCoroutine(FinalCaculate(time, 2, 200, textTime, soundSlide, countDiamond * 0.2f + countCherry * 0.2f));
         }
     }
 
-    private IEnumerator FinalCaculate(int count, int score, int addScore, Text textFinal, AudioClip sound, float wait = 0)
+    /// <summary>
+    /// 結算分數，必須傳分數、增加的分數、介面、音效與等待時間
+    /// </summary>
+    /// <param name="count">執行次數</param>
+    /// <param name="score">要儲存的分數</param>
+    /// <param name="addScore">要增加的分數</param>
+    /// <param name="textFinal">文字介面</param>
+    /// <param name="sound">音效</param>
+    /// <param name="wait">等待時間</param>
+    /// <param name="waitTime">間隔時間</param>
+    /// <returns></returns>
+    private IEnumerator FinalCaculate(int count, int scoreIndex, int addScore, Text textFinal, AudioClip sound, float wait = 0, float waitTime = 0.2f)
     {
         yield return new WaitForSeconds(wait);
 
         while (count > 0)                                   // 當數量 > 0 時執行
         {
-            count--;                                         // 鑽石數量 -1
-            score += addScore;                              // 分數遞增
-            textFinal.text = score.ToString();              // 更新介面
+            count--;                                        // 數量 -1
+            scores[scoreIndex] += addScore;                 // 分數遞增
+            textFinal.text = scores[scoreIndex].ToString(); // 更新介面
             aud.PlayOneShot(sound);                         // 播放音效
-            yield return new WaitForSeconds(0.2f);          // 等待
+            yield return new WaitForSeconds(waitTime);      // 等待
+        }
+
+        // 總分
+        if (scoreIndex != 3) scores[3] += scores[scoreIndex];
+        if (scoreIndex == 2)
+        {
+            int total = scores[3] / 100;
+            scores[3] = 0;
+            StartCoroutine(FinalCaculate(total, 3, 100, textTotal, soundSlide, 0, 0.05f));
         }
     }
 
