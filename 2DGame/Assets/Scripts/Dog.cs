@@ -211,6 +211,7 @@ public class Dog : MonoBehaviour
     /// </summary>
     public void Slide()
     {
+        if (ani.GetBool("滑行開關")) return;
         // 如果 血量 <= 0 跳出
         if (hp <= 0) return;
         //print("滑行");
